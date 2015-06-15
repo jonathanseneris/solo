@@ -17,28 +17,28 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+  > IOUONE is Venmo for karma.
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
-
+  > Answers the question: "In this relationship, who's winning?"
+  
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  >  It tracks the contributions of each memeber of a relationship, and quantifies those contributions into points which are transferrable.
 
 ## Problem ##
-  > Describe the problem your product solves.
+  > Some people put more effort into a relationship than their partners without recognition from others, or possibly themselves.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  > Quantifies effort in order to visualize who's pulling their weight.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  > "Don't let your dreams be dreams."
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  > Make a profile and start tracking.
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  > "Before IOUONE, I was vacuuming a disporportionate amount of the time, but I never knew it until I started keeping a ledger on my wife and kids. Now I'm divorced. [...Thanks IOUONE!] "
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  > "Sign up for IOUONE and get what's coming to you."
