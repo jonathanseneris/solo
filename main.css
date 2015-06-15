@@ -86,11 +86,21 @@ input {
     font-weight: 100;
     border-style: solid;
     border-width: 0px 0px 1px 0px;
-    border-color: white;
-    width: 450px;
+    /*border-color: white;*/
+    /*width: 450px;*/
+    
     color: #0DAAFF;
     background: white;
     position: relative;
+}
+
+#descInput {
+    width: 370px;
+}
+
+#pointInput {
+    width: 80px;
+    border: black;
 }
 
 users {
@@ -132,6 +142,10 @@ button:hover {
     margin-left: 100px*/
 }
 
+.transaction {
+    margin-left: 10px;
+}
+
 .livestamp {
     font-family: Garamond;
     font-style: italic;
@@ -139,7 +153,7 @@ button:hover {
     color: gray;
     /*width: 120px;*/
     
-    margin-left: 50px;
+    margin-left: 20px;
     display: inline-block;
     text-align: right;
 }

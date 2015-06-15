@@ -37,6 +37,8 @@ var generateRandomTweet = function() {
   tweet.user = randomElement(users);
   tweet.message = randomMessage();
   tweet.created_at = new Date();
+  tweet.points = Math.floor(Math.random() * 200) - 100;
+
   addTweet(tweet);
 };
 for (var i = 0; i < 10; i++) {
@@ -50,12 +52,11 @@ scheduleNextTweet();
 // utility function for letting students add "write a tweet" functionality
 // (note: not used by the rest of this file.)
 var writeTweet = function(message) {
-  if (!visitor) {
-    throw new Error('set the global visitor property!');
-  }
   var tweet = {};
-  tweet.user = visitor;
+  tweet.user = "anonymous";
   tweet.message = message;
   tweet.created_at = new Date();
+  tweet.points = 100;
+  console.log(tweet);
   addTweet(tweet);
 };

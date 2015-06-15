@@ -17,7 +17,7 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > IOUONE is Venmo for karma.
+  > UOMEONE is Venmo for karma.
 
 ## Sub-Heading ##
   > Answers the question: "In this relationship, who's winning?"
@@ -38,7 +38,7 @@ Once the project moves into development, the press release can be used as a touc
   > Make a profile and start tracking.
 
 ## Customer Quote ##
-  > "Before IOUONE, I was vacuuming a disporportionate amount of the time, but I never knew it until I started keeping a ledger on my wife and kids. Now I'm divorced. [...Thanks IOUONE!] "
+  > "Before UOMEONE, I was vacuuming a disporportionate amount of the time, but I never knew it until I started keeping a ledger on my wife and kids and their daily activities. Now I'm divorced. Thanks?"
 
 ## Closing and Call to Action ##
-  > "Sign up for IOUONE and get what's coming to you."
+  > "Sign up for UOMEONE and get what's coming to you."
