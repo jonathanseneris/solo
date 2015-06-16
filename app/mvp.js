@@ -15,29 +15,41 @@
 
 // uomeonedb// W62mHkr7Ktb2 //mysql.sener.is
 
-var activeUser = {
-  name: m.prop("Jonathan Seneris"),
-  email: m.prop("jonathanpseneris@gmail.com"),
-  balance: m.prop(100),
-  picture: m.prop("http://sener.is/profile.jpg"),
-  motto: m.prop("In it to WIN IT!"),
-  password: m.prop("1234")
-};
-
 var user = {};
 
 user.USER = function(data) {
   this.name = m.prop(data.name);
   this.email = m.prop(data.email);
   this.balance = m.prop(data.balance);
-  this.picture = m.prop(data.pic);
+  this.picture = m.prop(data.picture);
   this.motto = m.prop(data.motto);
   this.password = m.prop(data.password);
 };
 
-user.UserList = Array;
+var player1 = new user.USER({
+  name: "Jonathan",
+  email: "jonathanpseneris@gmail.com",
+  balance: 100,
+  picture: "http://sener.is/profile.jpg",
+  motto: "In it to WIN IT!",
+  password: "1234"
+});
 
-user.vm = function(profile) {
+var player2 = new user.USER({
+  name: "Libby",
+  email: "libbydoyne@gmail.com",
+  balance: 100,
+  picture: "http://sener.is/libby.jpg",
+  motto: "Who's idea was this?",
+  password: "1234"
+});
+
+var activeUser = player1;
+
+// user.UserList = Array;
+user.UserList = [player1, player2];
+
+user.vm = (function(profile) {
   var vm = {};
 
   vm.init = function() {
@@ -47,13 +59,25 @@ user.vm = function(profile) {
     vm.picture = profile.picture;
     vm.motto = profile.motto;
 
-    vm.addUser = function() {};
+    user.vm.list = new user.UserList();
+    vm.addUser = function(profile) {
+      if (profile()) {
+        user.vm.list.push(profile);
+      }
+    };
   };
+
+  console.log("ttttttt")
+    // user.vm.addUser(player1);
+    // user.vm.addUser(player2);
+    // console.log(user.vm.list);
+
   return vm;
-};
+})();
 
 var uome = {};
 uome.UOME = function(data) {
+  this.dataType = m.prop(data.dataType);
   this.message = m.prop(data.message);
   this.user = m.prop(data.user);
   // this.recipient = m.prop(data.user);
@@ -61,11 +85,12 @@ uome.UOME = function(data) {
   this.points = m.prop(data.points);
   this.hidden = false;
 };
+
 uome.UOMEList = Array;
 
 uome.vm = (function() {
   var vm = {};
-  vm.count = 0;
+  vm.count = 1;
   streams.users.anonymous = [];
   vm.userToggle = false;
 
@@ -79,11 +104,12 @@ uome.vm = (function() {
         url: 'http://localhost:3000/transactions',
         method: 'GET',
       }).then(function(data) {
-        console.log(data);
-        // while (vm.count <= data.length) {
-        for (var i = 0; i < data.length; i++) {
-          console.log(data[i]);
-          vm.list.push(data[i]);
+        while (vm.count < data.length) {
+          console.log(data[vm.count]);
+          if (typeof data[vm.count] === 'string') {
+            data[vm.count] = JSON.parse(data[vm.count]);
+          }
+          vm.list.unshift(new uome.UOME(data[vm.count]));
           vm.count++;
         }
       });
@@ -92,32 +118,25 @@ uome.vm = (function() {
     vm.add = function() {
       if (vm.message()) {
         var newTransaction = {
+          dataType: "transaction",
           message: vm.message(),
-          user: "anonymous",
+          user: activeUser.name(),
           created_at: new Date(),
           points: vm.points(),
           hidden: false
         };
-        // newTransaction = JSON.stringify(newTransaction);
-        // console.log(newTransaction);
-
         m.request({
           url: 'http://localhost:3000/transactions',
           method: 'POST',
-          // contentType: 'text/plain',
-          // data: newTransaction,
-          data: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            // body: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            // test: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          data: JSON.stringify(newTransaction),
         }).then(function(err) {
-          console.log(err);
-          console.log("done");
           vm.message('');
+          var newSum = Number(vm.points()) + activeUser.balance();
+          activeUser.balance(newSum);
           vm.points('');
           vm.refresh();
           livestampGlobal.update();
         });
-
       }
     };
 
@@ -238,6 +257,7 @@ uome.view = function() {
       }),
       m("input", {
         id: "pointInput",
+        type: "number",
         onchange: m.withAttr("value", uome.vm.points),
         value: uome.vm.points(),
         // points: uome.vm.points(),
@@ -257,26 +277,52 @@ uome.view = function() {
         onclick: uome.vm.refresh,
       }, "refresh")
     ]),
+    // m("div", {
+    //   class: "userprofiles"
+    // }),
     m("body", [
       m("div", {
-        class: "profile"
+        class: "profile1",
+        "border-color": "blue"
+          // "border-color": activeUser === player1 ? "green" : "blue"
       }, [
         m("img", {
-          src: activeUser.picture()
+          src: player1.picture(),
+          onclick: function() {
+            activeUser = player1;
+          },
         }),
-        m("h1", activeUser.name()),
-        m("h2", activeUser.motto()),
+        m("h1", player1.name()),
+        m("h2", player1.motto()),
         m("h3", {
             style: {
-              "background-color": activeUser.balance() >= 0 ? "#85FF00" : "#FF005E"
+              "background-color": player1.balance() >= 0 ? "#85FF00" : "#FF005E"
             }
           },
-          "balance: ", activeUser.balance()
+          "balance: ", player1.balance()
+        )
+      ]),
+      m("div", {
+        class: "profile2"
+      }, [
+        m("img", {
+          src: player2.picture(),
+          onclick: function() {
+            activeUser = player2;
+          },
+        }),
+        m("h1", player2.name()),
+        m("h2", player2.motto()),
+        m("h3", {
+            style: {
+              "background-color": player2.balance() >= 0 ? "#85FF00" : "#FF005E"
+            }
+          },
+          "balance: ", player2.balance()
         )
       ]),
 
       uome.vm.list.map(function(line, index) {
-        console.log(line);
         if (line) { //check this
           var styleMultiplier = {};
           styleMultiplier.user = 10 / line.user().length + "em";
@@ -304,7 +350,50 @@ uome.view = function() {
   ]);
 };
 
+// user.view = function() {
+
+//   return m("div", {
+//       class: "profile1"
+//     }, [
+//       m("img", {
+//         src: player1.picture()
+//       }),
+//       m("h1", player1.name()),
+//       m("h2", player1.motto()),
+//       m("h3", {
+//           style: {
+//             "background-color": player1.balance() >= 0 ? "#yellow" : "#FF005E"
+//           }
+//         },
+//         "balance: ", player1.balance()
+//       )
+//     ]),
+//     m("div", {
+//       class: "profile2"
+//     }, [
+//       m("img", {
+//         src: player2.picture(),
+//         onclick: function() {
+//           console.log("test");
+//         },
+//       }),
+//       m("h1", player2.name()),
+//       m("h2", player2.motto()),
+//       m("h3", {
+//           style: {
+//             "background-color": player2.balance() >= 0 ? "#85FF00" : "#FF005E"
+//           }
+//         },
+//         "balance: ", player2.balance()
+//       )
+//     ]);
+// };
+
 m.mount(document, {
   controller: uome.controller,
   view: uome.view
 });
+// m.mount(document.head, {
+//   controller: user.controller,
+//   view: user.view
+// });
