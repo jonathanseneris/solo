@@ -13,7 +13,19 @@
 // community-resolved disputes
 // upvotes?
 
+// uomeonedb// W62mHkr7Ktb2 //mysql.sener.is
+
+var activeUser = {
+  name: m.prop("Jonathan Seneris"),
+  email: m.prop("jonathanpseneris@gmail.com"),
+  balance: m.prop(100),
+  picture: m.prop("http://sener.is/profile.jpg"),
+  motto: m.prop("In it to WIN IT!"),
+  password: m.prop("1234")
+};
+
 var user = {};
+
 user.USER = function(data) {
   this.name = m.prop(data.name);
   this.email = m.prop(data.email);
@@ -27,18 +39,15 @@ user.UserList = Array;
 
 user.vm = function(profile) {
   var vm = {};
-  profile = {
-    name: "Jonathan",
-    balance: 5231,
-    picture:
 
-  }
   vm.init = function() {
     vm.list = new user.UserList();
     vm.name = profile.name;
     vm.balance = profile.balance;
     vm.picture = profile.picture;
     vm.motto = profile.motto;
+
+    vm.addUser = function() {};
   };
   return vm;
 };
@@ -47,6 +56,7 @@ var uome = {};
 uome.UOME = function(data) {
   this.message = m.prop(data.message);
   this.user = m.prop(data.user);
+  // this.recipient = m.prop(data.user);
   this.timestamp = m.prop(data.created_at);
   this.points = m.prop(data.points);
   this.hidden = false;
@@ -65,37 +75,61 @@ uome.vm = (function() {
     vm.points = m.prop('');
 
     vm.refresh = function() {
-      while (vm.count < streams.home.length) {
-        vm.list.unshift(new uome.UOME(streams.home[vm.count]));
-        vm.count++;
-      }
+      m.request({
+        url: 'http://localhost:3000/transactions',
+        method: 'GET',
+      }).then(function(data) {
+        console.log(data);
+        // while (vm.count <= data.length) {
+        for (var i = 0; i < data.length; i++) {
+          console.log(data[i]);
+          vm.list.push(data[i]);
+          vm.count++;
+        }
+      });
     };
 
     vm.add = function() {
-        if (vm.message()) {
+      if (vm.message()) {
+        var newTransaction = {
+          message: vm.message(),
+          user: "anonymous",
+          created_at: new Date(),
+          points: vm.points(),
+          hidden: false
+        };
+        // newTransaction = JSON.stringify(newTransaction);
+        // console.log(newTransaction);
 
-          addTweet({ //fix this when you break from twittler
-            message: vm.message(),
-            user: "anonymous",
-            created_at: new Date(),
-            points: vm.points(),
-            hidden: false
-          });
+        m.request({
+          url: 'http://localhost:3000/transactions',
+          method: 'POST',
+          // contentType: 'text/plain',
+          // data: newTransaction,
+          data: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            // body: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            // test: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        }).then(function(err) {
+          console.log(err);
+          console.log("done");
           vm.message('');
           vm.points('');
           vm.refresh();
           livestampGlobal.update();
-        }
-      },
-      vm.userPage = function() {
-        var user = this.innerHTML;
-        uome.vm.list.map(function(line) {
-          if (line.user() !== user) {
-            line.hidden = vm.userToggle ? false : true;
-          }
         });
-        vm.userToggle = !vm.userToggle;
-      };
+
+      }
+    };
+
+    vm.userPage = function() {
+      var user = this.innerHTML;
+      uome.vm.list.map(function(line) {
+        if (line.user() !== user) {
+          line.hidden = vm.userToggle ? false : true;
+        }
+      });
+      vm.userToggle = !vm.userToggle;
+    };
     vm.refresh();
   };
   return vm;
@@ -105,11 +139,11 @@ uome.controller = function() {
   uome.vm.init();
 };
 
+// hashtags
 hashtag_regexp = /#([a-zA-Z0-9]+)/g; // hashtag highlighting modified from this SO answer http://stackoverflow.com/a/4913601
-
 linkHashtags = function(text, size, points) {
-  console.log(points);
   var hashPos = text.indexOf("#");
+  var numSize = size > 1.2 ? 1.2 : size;
   var color = points >= 0 ? "green" : "red";
   if (hashPos > -1) {
     var plain = text.slice(0, hashPos);
@@ -120,21 +154,21 @@ linkHashtags = function(text, size, points) {
     }, [
       m("span", {
           style: {
-            "font-size": size
+            "font-size": size + "em"
           }
         },
         plain),
       m("span", {
           class: "hashtag",
           style: {
-            "font-size": size
+            "font-size": size + "em"
           }
         },
         hashText),
       m("span", {
         class: "transaction",
         style: {
-          "font-size": size,
+          "font-size": numSize + "em",
           "color": color
         }
       }, points)
@@ -142,15 +176,14 @@ linkHashtags = function(text, size, points) {
   } else return m("span", {
       class: "message",
       style: {
-        "font-size": size > 3 ? 3 : size
-
+        "font-size": size + "em"
       }
     },
     text,
     m("span", {
       class: "transaction",
       style: {
-        "font-size": size > 3 ? 3 : size,
+        "font-size": numSize + "em",
         "color": color
       }
     }, points));
@@ -172,16 +205,17 @@ var hideDiv = {
   // "-webkit-transition": "height 1s ease",
   // "-o-transition": "height 1s ease",
   // "transition": "all 2s ease"
-}
+};
 var showDiv = {
   "visibility": "visible",
   // "opacity": 1,
   // "transition-delay": "2s"
-}
+};
 
 //
 
 uome.view = function() {
+
   return m("html", [
     m("link[href='main.css'][rel=stylesheet]"),
     m("header", {
@@ -224,27 +258,47 @@ uome.view = function() {
       }, "refresh")
     ]),
     m("body", [
-      uome.vm.list.map(function(line, index) {
-        var styleMultiplier = {};
-        styleMultiplier.user = 10 / line.user().length + "em";
-        styleMultiplier.message = 40 / (line.message().length + line.points().toString().length) + "em";
-        return m("div", {
-          class: line.user(),
-          style: line.hidden ? hideDiv : showDiv
-        }, [
-          "@", m("a", {
-            class: line.user(),
-            onclick: uome.vm.userPage,
+      m("div", {
+        class: "profile"
+      }, [
+        m("img", {
+          src: activeUser.picture()
+        }),
+        m("h1", activeUser.name()),
+        m("h2", activeUser.motto()),
+        m("h3", {
             style: {
-              "font-size": styleMultiplier.user,
+              "background-color": activeUser.balance() >= 0 ? "#85FF00" : "#FF005E"
             }
-          }, line.user()),
-          linkHashtags(line.message(), styleMultiplier.message, line.points()),
-          m("span", {
-            "class": "livestamp",
-            "data-livestamp": line.timestamp(),
-          }),
-        ]);
+          },
+          "balance: ", activeUser.balance()
+        )
+      ]),
+
+      uome.vm.list.map(function(line, index) {
+        console.log(line);
+        if (line) { //check this
+          var styleMultiplier = {};
+          styleMultiplier.user = 10 / line.user().length + "em";
+          styleMultiplier.message = 45 / (line.message().length + line.points().toString().length);
+          return m("div", {
+            class: line.user(),
+            style: line.hidden ? hideDiv : showDiv
+          }, [
+            "@", m("a", {
+              class: line.user(),
+              onclick: uome.vm.userPage,
+              style: {
+                "font-size": styleMultiplier.user,
+              }
+            }, line.user()),
+            linkHashtags(line.message(), styleMultiplier.message, line.points()),
+            m("span", {
+              "class": "livestamp",
+              "data-livestamp": line.timestamp(),
+            }),
+          ]);
+        }
       })
     ])
   ]);

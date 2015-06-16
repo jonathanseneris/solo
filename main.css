@@ -2,12 +2,12 @@
 
 html {
     line-height: 1.5;
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
 }
 
 body {
-    margin-top: 60px;
     width: 850px;
+    margin-top: 60px;
     margin-left: 100px;
 }
 
@@ -19,32 +19,26 @@ body {
 header {
     font-family: Courier;
     font-size: 1.2em;
-    /*text-decoration: none;*/
-    
     font-weight: 500;
-    color: black;
-    padding: 2px;
-    margin-bottom: 30px;
     position: fixed;
-    /*display: inline-block;*/
-    /*text-align: left;*/
-    
-    background: #F5F5F5;
+    margin-bottom: 30px;
+    padding: 2px;
+    color: black;
+    background: #f5f5f5;
 }
 
 .hashtag {
-    background: #FFED5F;
     font-family: Courier New;
     font-weight: 100;
+    background: #ffed5f;
     /*blue 0DAAFF red FF005E green 85FF00*/
 }
 
 #headRow {
-    margin-left: 100px;
-    /*width: 720px;*/
-    
     height: 50px;
+    margin: 0px 0px 0px 100px;
     border-bottom: 1px solid gray;
+    border-top: 6px solid #f5f5f5;
     /*hidden, dotted, dashed, solid, double, groove, ridge, inset, outset*/
     /*border-bottom: 1px solid #FF005E;*/
 }
@@ -55,13 +49,13 @@ header {
 }
 
 #trademark {
-    display: inline;
-    font-size: 0.2em;
+    font-size: .2em;
     font-style: italic;
+    display: inline;
+    margin: 20px 30px 0 25px;
     padding: 4px 12px 4px 12px;
-    background: white;
     border: 1px solid black;
-    margin: 20px 30px 0px 25px;
+    background: white;
     /*box-shadow: -2px 2px gray;*/
     /*color: #FF005E;*/
 }
@@ -69,29 +63,26 @@ header {
 a {
     font-family: Courier New;
     font-weight: 600;
-    color: white;
-    padding: 2px;
-    background-color: black;
-    margin: 2px;
     display: inline-block;
+    margin: 2px;
+    padding: 2px;
+    color: white;
+    background-color: black;
 }
 
 a:hover {
-    background-color: #FF005E;
+    background-color: #ff005e;
 }
 
 input {
     font-family: Courier new;
     font-size: 1.5em;
     font-weight: 100;
-    border-style: solid;
-    border-width: 0px 0px 1px 0px;
-    /*border-color: white;*/
-    /*width: 450px;*/
-    
-    color: #0DAAFF;
-    background: white;
     position: relative;
+    color: #0daaff;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    background: white;
 }
 
 #descInput {
@@ -106,27 +97,73 @@ input {
 users {
     font-family: Courier New;
     font-weight: 600;
-    color: white;
-    padding: 2px;
-    background-color: black;
-    margin: 2px;
     display: inline-block;
+    margin: 2px;
+    padding: 2px;
+    color: white;
+    background-color: black;
 }
 
 button {
     font-family: Courier New;
-    color: #ffffff;
     font-size: 1em;
+    margin: 0;
     padding: 9px 5px 5px 5px;
-    background: #e1e1e1;
     text-decoration: none;
+    color: #fff;
     border: none;
+    background: #e1e1e1;
+}
+/*// profile*/
+
+.profile {
+    position: fixed;
+    /*display: block;*/
+    
+    margin-left: 700px;
+    background-color: white;
+    width: 150px;
+    margin-top: 0px;
+    border: solid 1px grey;
+}
+
+img {
+    position: relative;
+    width: 150px;
     margin: 0px;
 }
 
+h1 {
+    margin: 0px;
+    font-family: "Helvetica Neue";
+    font-weight: 100;
+    font-size: 1em;
+    text-align: center;
+    color: white;
+    background-color: black;
+}
+
+h2 {
+    font-family: "Helvetica Neue";
+    font-style: Italic;
+    font-weight: 300;
+    font-size: 0.8em;
+    text-align: center;
+    margin: 0px;
+}
+
+h3 {
+    font-family: "Helvetica Neue";
+    font-style: "Italic";
+    font-weight: 300;
+    font-size: 0.8em;
+    background-color: #85FF00;
+    text-align: center;
+}
+
 button:hover {
-    background: #85FF00;
     text-decoration: none;
+    background: #85ff00;
 }
 
 #refresh {
@@ -134,12 +171,7 @@ button:hover {
 }
 
 #refresh:hover {
-    background: #85FF00;
-}
-
-.tweetLine {
-    /*    width: 850px;
-    margin-left: 100px*/
+    background: #85ff00;
 }
 
 .transaction {
@@ -148,32 +180,29 @@ button:hover {
 
 .livestamp {
     font-family: Garamond;
+    font-size: .75em;
     font-style: italic;
-    font-size: 0.75em;
-    color: gray;
-    /*width: 120px;*/
-    
     margin-left: 20px;
-    display: inline-block;
     text-align: right;
+    color: gray;
 }
 
 ::-webkit-input-placeholder {
-    color: #E0E0E0;
+    color: #e0e0e0;
 }
 
 :-moz-placeholder {
     /* Firefox 18- */
     
-    color: #E0E0E0;
+    color: #e0e0e0;
 }
 
 ::-moz-placeholder {
     /* Firefox 19+ */
     
-    color: #E0E0E0;
+    color: #e0e0e0;
 }
 
 :-ms-input-placeholder {
-    color: #E0E0E0;
+    color: #e0e0e0;
 }

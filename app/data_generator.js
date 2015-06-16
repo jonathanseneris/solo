@@ -38,7 +38,6 @@ var generateRandomTweet = function() {
   tweet.message = randomMessage();
   tweet.created_at = new Date();
   tweet.points = Math.floor(Math.random() * 200) - 100;
-
   addTweet(tweet);
 };
 for (var i = 0; i < 10; i++) {
@@ -46,7 +45,7 @@ for (var i = 0; i < 10; i++) {
 }
 var scheduleNextTweet = function() {
   generateRandomTweet();
-  setTimeout(scheduleNextTweet, Math.random() * 1500);
+  setTimeout(scheduleNextTweet, Math.random() * 5000);
 };
 scheduleNextTweet();
 // utility function for letting students add "write a tweet" functionality
@@ -58,5 +57,7 @@ var writeTweet = function(message) {
   tweet.created_at = new Date();
   tweet.points = 100;
   console.log(tweet);
+
   addTweet(tweet);
+
 };
